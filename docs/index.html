@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniRed — Multi-AI Offensive Security Skills Library</title>
+  <meta name="description" content="OmniRed is the first offensive security skills library for Claude, ChatGPT, Gemini, and Microsoft Copilot. Unique MCP, LLM-pipeline, and AI-native attack categories. By Sunil Gentyala, Independent Researcher.">
+  <meta property="og:title" content="OmniRed — Multi-AI Offensive Security Skills Library">
+  <meta property="og:description" content="The first offensive security skills library built for all four major AI platforms. Claude, ChatGPT, Gemini, Microsoft Copilot.">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #21262d;
+      --accent: #f0883e;
+      --accent2: #58a6ff;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --green: #3fb950;
+      --red: #f85149;
+      --purple: #bc8cff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+    .nav-brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 1.5rem; font-size: 0.9rem; }
+    .nav-links a { color: var(--muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .badge-orange { background: rgba(240,136,62,0.15); color: var(--accent); border: 1px solid rgba(240,136,62,0.3); }
+    .badge-blue   { background: rgba(88,166,255,0.12); color: var(--accent2); border: 1px solid rgba(88,166,255,0.25); }
+    .badge-green  { background: rgba(63,185,80,0.12);  color: var(--green);   border: 1px solid rgba(63,185,80,0.25); }
+    .badge-purple { background: rgba(188,140,255,0.12);color: var(--purple);  border: 1px solid rgba(188,140,255,0.25); }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--accent); }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 2rem;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; text-decoration: none; }
+    .btn-primary { background: var(--accent); color: #0d1117; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+
+    /* PLATFORM STRIP */
+    .platforms {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      margin: 3rem 0;
+    }
+    .platform-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .platform-list {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .platform-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .platform-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* SECTION */
+    section { max-width: 1080px; margin: 0 auto; padding: 3rem 2rem; }
+    .section-label {
+      font-size: 0.75rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.6rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem;
+      transition: border-color 0.15s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .card p { font-size: 0.875rem; color: var(--muted); }
+    .card-new {
+      display: inline-block;
+      font-size: 0.65rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(240,136,62,0.15);
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+    .card-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.8rem;
+    }
+    .skill-chip {
+      font-size: 0.72rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* COMPARE TABLE */
+    .table-wrap { overflow-x: auto; margin-top: 1rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    td:first-child { font-weight: 600; color: var(--text); }
+    .check { color: var(--green); }
+    .cross { color: var(--red); }
+    .highlight-row td { background: rgba(240,136,62,0.06); }
+    .highlight-row td:first-child { color: var(--accent); }
+
+    /* INSTALL */
+    .install-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .install-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .install-header {
+      padding: 0.8rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .install-body {
+      padding: 1rem;
+    }
+    pre {
+      background: var(--bg);
+      border-radius: 6px;
+      padding: 0.8rem;
+      font-size: 0.8rem;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+      color: var(--green);
+    }
+    .install-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.6rem;
+    }
+
+    /* STATS STRIP */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .stat-num {
+      font-size: 2.4rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.3rem; }
+
+    /* AUTHOR */
+    .author-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      max-width: 640px;
+    }
+    .author-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #0d1117;
+      flex-shrink: 0;
+    }
+    .author-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .author-role { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.8rem; }
+    .author-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .author-link {
+      font-size: 0.82rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .author-link:hover { color: var(--text); border-color: var(--accent); text-decoration: none; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2rem; }
+      .author-card { flex-direction: column; }
+      .stats { gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand">OmniRed</span>
+  <div class="nav-links">
+    <a href="#categories">Skills</a>
+    <a href="#compare">Compare</a>
+    <a href="#install">Install</a>
+    <a href="https://github.com/sunilgentyala/OmniRed" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge-row">
+    <span class="badge badge-orange">v1.0.0</span>
+    <span class="badge badge-green">55 Skills</span>
+    <span class="badge badge-blue">4 AI Platforms</span>
+    <span class="badge badge-purple">Apache 2.0</span>
+  </div>
+  <h1>Offensive security skills<br>for <span>every AI</span></h1>
+  <p>The first red team skills library built for Claude, ChatGPT, Gemini, and Microsoft Copilot — with unique MCP, LLM-pipeline, and AI-native attack categories.</p>
+  <div class="btn-row">
+    <a href="https://github.com/sunilgentyala/OmniRed" class="btn btn-primary" target="_blank">
+      View on GitHub
+    </a>
+    <a href="#install" class="btn btn-outline">
+      Quick install
+    </a>
+  </div>
+</div>
+
+<!-- PLATFORM STRIP -->
+<div class="platforms">
+  <span class="platform-label">Works with</span>
+  <div class="platform-list">
+    <div class="platform-item">
+      <span class="platform-dot" style="background:#f0883e"></span> Claude
+    </div>
+    <div class="platform-item">
+      <span class="platform-dot" style="background:#10a37f"></span> ChatGPT
+    </div>
+    <div class="platform-item">
+      <span class="platform-dot" style="background:#4285f4"></span> Gemini
+    </div>
+    <div class="platform-item">
+      <span class="platform-dot" style="background:#0078d4"></span> Microsoft Copilot
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div>
+    <div class="stat-num">55</div>
+    <div class="stat-label">Skills</div>
+  </div>
+  <div>
+    <div class="stat-num">4</div>
+    <div class="stat-label">AI Platforms</div>
+  </div>
+  <div>
+    <div class="stat-num">11</div>
+    <div class="stat-label">Attack Categories</div>
+  </div>
+  <div>
+    <div class="stat-num">3</div>
+    <div class="stat-label">New Categories</div>
+  </div>
+</div>
+
+<!-- SKILL CATEGORIES -->
+<section id="categories">
+  <div class="section-label">Attack surface</div>
+  <h2>What OmniRed covers</h2>
+  <p class="section-sub">Three new categories not found in any existing library, plus comprehensive classic attack coverage.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <h3>AI-Native <span class="card-new">New</span></h3>
+      <p>Direct attacks against LLM systems as targets — from prompt injection to model IP theft.</p>
+      <div class="card-skills">
+        <span class="skill-chip">prompt-injection</span>
+        <span class="skill-chip">jailbreaking</span>
+        <span class="skill-chip">model-extraction</span>
+        <span class="skill-chip">system-prompt-leak</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🔌</div>
+      <h3>MCP Attacks <span class="card-new">New</span></h3>
+      <p>Model Context Protocol security — tool poisoning, rug pull, and cross-server propagation. Backed by ContextGuard research (ICCBI 2026).</p>
+      <div class="card-skills">
+        <span class="skill-chip">tool-poisoning</span>
+        <span class="skill-chip">rug-pull</span>
+        <span class="skill-chip">context-injection</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🗄️</div>
+      <h3>LLM Pipeline <span class="card-new">New</span></h3>
+      <p>Attacks on the data layer feeding LLMs — RAG index poisoning and adversarial embedding manipulation.</p>
+      <div class="card-skills">
+        <span class="skill-chip">rag-poisoning</span>
+        <span class="skill-chip">embedding-attacks</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🌐</div>
+      <h3>Web Application</h3>
+      <p>Full OWASP Top 10 web coverage including WAF bypass techniques.</p>
+      <div class="card-skills">
+        <span class="skill-chip">sqli</span>
+        <span class="skill-chip">xss</span>
+        <span class="skill-chip">ssrf</span>
+        <span class="skill-chip">ssti</span>
+        <span class="skill-chip">xxe</span>
+        <span class="skill-chip">idor</span>
+        <span class="skill-chip">rce</span>
+        <span class="skill-chip">graphql</span>
+        <span class="skill-chip">waf-bypass</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🏢</div>
+      <h3>Active Directory</h3>
+      <p>Windows domain attacks — from ticket theft to domain controller compromise.</p>
+      <div class="card-skills">
+        <span class="skill-chip">kerberoasting</span>
+        <span class="skill-chip">pass-the-hash</span>
+        <span class="skill-chip">dcsync</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">☁️</div>
+      <h3>Cloud</h3>
+      <p>AWS, Azure, GCP privilege escalation, storage enumeration, and container escape.</p>
+      <div class="card-skills">
+        <span class="skill-chip">iam-privesc</span>
+        <span class="skill-chip">s3-enum</span>
+        <span class="skill-chip">container-escape</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>Infrastructure</h3>
+      <p>EDR evasion, AMSI bypass, process injection, and living-off-the-land initial access.</p>
+      <div class="card-skills">
+        <span class="skill-chip">edr-evasion</span>
+        <span class="skill-chip">initial-access</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🔑</div>
+      <h3>Auth</h3>
+      <p>OAuth 2.0 flaws, JWT algorithm confusion, and session management attacks.</p>
+      <div class="card-skills">
+        <span class="skill-chip">oauth</span>
+        <span class="skill-chip">jwt</span>
+        <span class="skill-chip">session-attacks</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">🔍</div>
+      <h3>Recon</h3>
+      <p>OSINT, subdomain enumeration, certificate transparency, and subdomain takeover detection.</p>
+      <div class="card-skills">
+        <span class="skill-chip">osint</span>
+        <span class="skill-chip">subdomain-enum</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">⛓️</div>
+      <h3>Supply Chain</h3>
+      <p>AI model weight tampering, pickle exploits, backdoor insertion, and registry name-squatting.</p>
+      <div class="card-skills">
+        <span class="skill-chip">model-tampering</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <h3>Utility</h3>
+      <p>Professional report writing templates and CVSS v4.0 scoring guide with AI-specific vectors.</p>
+      <div class="card-skills">
+        <span class="skill-chip">report-writing</span>
+        <span class="skill-chip">cvss4-scoring</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section id="compare">
+  <div class="section-label">Comparison</div>
+  <h2>How OmniRed compares</h2>
+  <p class="section-sub">Every other offensive skills library targets a single AI platform. OmniRed is the first to cover all four.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Claude-Red</th>
+          <th>offensive-claude</th>
+          <th>red-run</th>
+          <th>OmniRed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Claude support</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr>
+          <td>ChatGPT support</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr>
+          <td>Gemini support</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr>
+          <td>Microsoft Copilot</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>MCP attack skills</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓ (3 skills)</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>LLM pipeline attacks</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓ (2 skills)</td>
+        </tr>
+        <tr class="highlight-row">
+          <td>AI-native attacks</td>
+          <td>partial</td>
+          <td>partial</td>
+          <td class="cross">✗</td>
+          <td class="check">✓ (4 skills)</td>
+        </tr>
+        <tr>
+          <td>OWASP LLM Top 10</td>
+          <td class="cross">✗</td>
+          <td>partial</td>
+          <td class="cross">✗</td>
+          <td class="check">✓ full mapping</td>
+        </tr>
+        <tr>
+          <td>MITRE ATLAS</td>
+          <td class="cross">✗</td>
+          <td>partial</td>
+          <td class="cross">✗</td>
+          <td class="check">✓ full mapping</td>
+        </tr>
+        <tr>
+          <td>CVSS v4.0 scoring</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr>
+          <td>Supply chain attacks</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓</td>
+        </tr>
+        <tr>
+          <td>Academic backing</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="cross">✗</td>
+          <td class="check">✓ IEEE</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install">
+  <div class="section-label">Installation</div>
+  <h2>Get started</h2>
+  <p class="section-sub">Pick your AI platform and drop in the skills.</p>
+
+  <div class="install-grid">
+    <div class="install-card">
+      <div class="install-header">
+        <span style="color:#f0883e">●</span> Claude Code
+      </div>
+      <div class="install-body">
+        <pre>.\scripts\install-claude.ps1</pre>
+        <div class="install-note">Or sparse-checkout individual categories. Restart Claude Code to activate.</div>
+      </div>
+    </div>
+
+    <div class="install-card">
+      <div class="install-header">
+        <span style="color:#10a37f">●</span> ChatGPT
+      </div>
+      <div class="install-body">
+        <pre>chatgpt/[category]/
+  INSTRUCTIONS.md</pre>
+        <div class="install-note">Paste into Custom GPT "Instructions" field. Enable Code Interpreter for exploit skills.</div>
+      </div>
+    </div>
+
+    <div class="install-card">
+      <div class="install-header">
+        <span style="color:#4285f4">●</span> Gemini
+      </div>
+      <div class="install-body">
+        <pre>gemini/[category]/
+  GEM.md</pre>
+        <div class="install-note">Paste into Gemini Gem "Instructions" field. Enable Google Search for recon skills.</div>
+      </div>
+    </div>
+
+    <div class="install-card">
+      <div class="install-header">
+        <span style="color:#0078d4">●</span> Microsoft Copilot
+      </div>
+      <div class="install-body">
+        <pre>copilot/[category]/
+  AGENT.md</pre>
+        <div class="install-note">Paste into Copilot Studio Agent "Instructions" field. Requires M365 license.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section>
+  <div class="section-label">Author</div>
+  <h2>Built by</h2>
+  <div class="author-card">
+    <div class="author-avatar">SG</div>
+    <div>
+      <div class="author-name">Sunil Gentyala</div>
+      <div class="author-role">Independent Researcher &nbsp;|&nbsp; IEEE Senior Member</div>
+      <div class="author-links">
+        <a href="https://github.com/sunilgentyala" class="author-link" target="_blank">GitHub</a>
+        <a href="https://github.com/sunilgentyala/argus" class="author-link" target="_blank">ARGUS Scanner</a>
+        <a href="https://github.com/sunilgentyala/contextguard" class="author-link" target="_blank">ContextGuard</a>
+        <a href="mailto:sunil.gentyala@ieee.org" class="author-link">IEEE Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    OmniRed &copy; 2026 <a href="https://github.com/sunilgentyala" target="_blank">Sunil Gentyala</a>,
+    Independent Researcher &nbsp;&middot;&nbsp;
+    <a href="https://github.com/sunilgentyala/OmniRed/blob/master/LICENSE" target="_blank">Apache 2.0</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://github.com/sunilgentyala/OmniRed/blob/master/SECURITY.md" target="_blank">Responsible Use Policy</a>
+  </p>
+  <p style="margin-top:0.4rem">For authorized security testing only.</p>
+</footer>
+
+</body>
+</html>
