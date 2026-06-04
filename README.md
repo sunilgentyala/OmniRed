@@ -163,6 +163,12 @@ See [SECURITY.md](SECURITY.md) for full responsible use policy.
 
 ---
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=sunilgentyala/OmniRed&type=Date)](https://star-history.com/#sunilgentyala/OmniRed&Date)
+
+---
+
 ## Citation
 
 ```bibtex
