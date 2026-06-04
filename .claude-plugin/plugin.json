@@ -1,0 +1,12 @@
+{
+  "name": "omni-red",
+  "version": "1.0.0",
+  "description": "Multi-AI offensive security skills library for Claude, ChatGPT, Gemini, and Microsoft Copilot. Covers web, auth, AD, cloud, infrastructure, recon, AI-native, MCP, LLM-pipeline, and supply-chain attacks.",
+  "author": {
+    "name": "Sunil Gentyala",
+    "email": "sunil.gentyala@ieee.org",
+    "url": "https://github.com/sunilgentyala"
+  },
+  "license": "Apache-2.0",
+  "keywords": ["security", "red-team", "offensive", "pentest", "ai-security", "mcp", "llm"]
+}
